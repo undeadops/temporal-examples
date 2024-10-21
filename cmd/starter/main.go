@@ -33,7 +33,7 @@ func main() {
 	workflowOptions := client.StartWorkflowOptions{
 		ID:           workflowID,
 		TaskQueue:    "cron",
-		CronSchedule: "*/10 * * * *",
+		CronSchedule: "10 * * * *",
 	}
 
 	we, err := c.ExecuteWorkflow(context.Background(), workflowOptions, cron.SampleCronWorkflow)
