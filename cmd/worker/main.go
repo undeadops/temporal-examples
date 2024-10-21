@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 
 	"go.temporal.io/sdk/client"
@@ -9,10 +10,17 @@ import (
 	"github.com/undeadops/temporal-examples/pkg/cron"
 )
 
+var (
+	temporalHostPort string
+)
+
 func main() {
+	flag.StringVar(&temporalHostPort, "temporalHostPort", "temporal-frontend:7233", "Temporal Host Port")
+	flag.Parse()
+
 	// The client and worker are heavyweight objects that should be created once per process.
 	c, err := client.Dial(client.Options{
-		HostPort: client.DefaultHostPort,
+		HostPort: temporalHostPort,
 	})
 	if err != nil {
 		log.Fatalln("Unable to create client", err)
