@@ -13,10 +13,12 @@ import (
 
 var (
 	temporalHostPort string
+	cronSchedule     string
 )
 
 func main() {
 	flag.StringVar(&temporalHostPort, "temporalHostPort", "temporal-frontend:7233", "Temporal Host Port")
+	flag.StringVar(&cronSchedule, "cronSchedule", "10 * * * *", "Cron Schedule")
 	flag.Parse()
 
 	// The client is a heavyweight object that should be created once per process.
@@ -33,7 +35,7 @@ func main() {
 	workflowOptions := client.StartWorkflowOptions{
 		ID:           workflowID,
 		TaskQueue:    "cron",
-		CronSchedule: "10 * * * *",
+		CronSchedule: cronSchedule,
 	}
 
 	we, err := c.ExecuteWorkflow(context.Background(), workflowOptions, cron.SampleCronWorkflow)
